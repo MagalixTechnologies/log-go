@@ -82,3 +82,18 @@ func (logger *Logger) TraceJSON(obj interface{}) (encoded string) {
 
 	return string(contents)
 }
+
+func (logger *Logger) NewChild() *Logger {
+	child := logger.Logger.NewChild()
+	return &Logger{
+		structured.NewLogger(child),
+	}
+}
+
+func (logger *Logger) NewChildWithPrefix(prefix string) *Logger {
+	// obtain child from lorg
+	child := logger.Logger.NewChildWithPrefix(prefix)
+	return &Logger{
+		structured.NewLogger(child),
+	}
+}
