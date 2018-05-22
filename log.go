@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	structured "github.com/MagalixTechnologies/structured-logger-go"
+	structured "github.com/reconquest/structured-logger-go"
 	"github.com/kovetskiy/lorg"
 )
 
