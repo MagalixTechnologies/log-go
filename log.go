@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	structured "github.com/reconquest/structured-logger-go"
 	"github.com/kovetskiy/lorg"
+	structured "github.com/reconquest/structured-logger-go"
 )
 
 type Logger struct {
@@ -22,28 +22,30 @@ func New(debug bool, trace bool, traceFile string) *Logger {
 
 	stderr.Infof("trace log file: %s", traceFile)
 
-	logfile, err := os.OpenFile(
-		traceFile,
-		os.O_WRONLY|os.O_CREATE|os.O_APPEND,
-		0666,
-	)
-	if err != nil {
-		stderr.Fatalf(
-			"unable to create log file: %s", err,
+	if traceFile != "" {
+		logfile, err := os.OpenFile(
+			traceFile,
+			os.O_WRONLY|os.O_CREATE|os.O_APPEND,
+			0666,
 		)
-	}
+		if err != nil {
+			stderr.Fatalf(
+				"unable to create log file: %s", err,
+			)
+		}
 
-	if logfile.Name() != os.Stderr.Name() {
-		output := lorg.NewOutput(logfile)
+		if logfile.Name() != os.Stderr.Name() {
+			output := lorg.NewOutput(logfile)
 
-		output.SetLevelWriterCondition(lorg.LevelTrace, logfile)
-		output.SetLevelWriterCondition(lorg.LevelDebug, logfile)
-		output.SetLevelWriterCondition(lorg.LevelFatal, logfile, os.Stderr)
-		output.SetLevelWriterCondition(lorg.LevelError, logfile, os.Stderr)
-		output.SetLevelWriterCondition(lorg.LevelWarning, logfile, os.Stderr)
-		output.SetLevelWriterCondition(lorg.LevelInfo, logfile, os.Stderr)
+			output.SetLevelWriterCondition(lorg.LevelTrace, logfile)
+			output.SetLevelWriterCondition(lorg.LevelDebug, logfile)
+			output.SetLevelWriterCondition(lorg.LevelFatal, logfile, os.Stderr)
+			output.SetLevelWriterCondition(lorg.LevelError, logfile, os.Stderr)
+			output.SetLevelWriterCondition(lorg.LevelWarning, logfile, os.Stderr)
+			output.SetLevelWriterCondition(lorg.LevelInfo, logfile, os.Stderr)
 
-		stderr.SetOutput(output)
+			stderr.SetOutput(output)
+		}
 	}
 
 	if debug {
