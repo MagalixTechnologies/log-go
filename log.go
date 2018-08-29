@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	structured "github.com/reconquest/structured-logger-go"
 	"github.com/kovetskiy/lorg"
+	structured "github.com/reconquest/structured-logger-go"
 )
 
 type Logger struct {
@@ -41,11 +41,12 @@ func New(debug bool, trace bool, traceFile string) *Logger {
 		output.SetLevelWriterCondition(lorg.LevelFatal, logfile, os.Stderr)
 		output.SetLevelWriterCondition(lorg.LevelError, logfile, os.Stderr)
 		output.SetLevelWriterCondition(lorg.LevelWarning, logfile, os.Stderr)
-		output.SetLevelWriterCondition(lorg.LevelInfo, logfile, os.Stderr)
+		output.SetLevelWriterCondition(lorg.LevelInfo, logfile)
 
 		stderr.SetOutput(output)
 	}
 
+	stderr.SetLevel(lorg.LevelWarning)
 	if debug {
 		stderr.SetLevel(lorg.LevelDebug)
 	}
