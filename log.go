@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/kovetskiy/lorg"
-	structured "github.com/reconquest/structured-logger-go"
+	structured "github.com/reconquest/cog"
 )
 
 type Logger struct {
