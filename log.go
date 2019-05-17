@@ -99,3 +99,7 @@ func (logger *Logger) NewChildWithPrefix(prefix string) *Logger {
 		structured.NewLogger(child),
 	}
 }
+
+func (logger *Logger) Println(v ...interface{}) {
+	logger.Print(v...)
+}
