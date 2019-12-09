@@ -1,8 +1,6 @@
 package log
 
 import (
-	"encoding/json"
-	"fmt"
 	"os"
 
 	"github.com/kovetskiy/lorg"
@@ -60,43 +58,18 @@ func New(debug bool, trace bool, traceFile string) *Logger {
 }
 
 func (logger *Logger) TraceJSON(obj interface{}) (encoded string) {
-	if logger.GetLevel() != lorg.LevelTrace {
-		return ""
-	}
-
-	defer func() {
-		err := recover()
-		if err != nil {
-			encoded = fmt.Sprintf(
-				"%#v (unable to encode to json: %s)",
-				obj, err,
-			)
-		}
-	}()
-
-	contents, err := json.MarshalIndent(obj, "", " ")
-	if err != nil {
-		return fmt.Sprintf(
-			"%#v (unable to encode to json: %s)",
-			obj, err,
-		)
-	}
-
-	return string(contents)
+	return logger.Logger.TraceJSON(obj)
 }
 
 func (logger *Logger) NewChild() *Logger {
-	child := logger.Logger.NewChild()
 	return &Logger{
-		structured.NewLogger(child),
+		logger.Logger.NewChild(),
 	}
 }
 
 func (logger *Logger) NewChildWithPrefix(prefix string) *Logger {
-	// obtain child from lorg
-	child := logger.Logger.NewChildWithPrefix(prefix)
 	return &Logger{
-		structured.NewLogger(child),
+		logger.Logger.NewChildWithPrefix(prefix),
 	}
 }
 
