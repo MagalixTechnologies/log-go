@@ -1,6 +1,6 @@
 module github.com/MagalixTechnologies/log-go
 
-go 1.15
+go 1.14
 
 require (
 	github.com/kovetskiy/lorg v0.0.0-20200107130803-9a7136a95634
